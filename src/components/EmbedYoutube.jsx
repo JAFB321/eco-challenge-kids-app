@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { YoutubeApiContext } from '../context/YoutubeApiContext';
 
 export const EmbedYoutube = ({
   videoId,
@@ -8,27 +9,24 @@ export const EmbedYoutube = ({
   start=0 
 }) => {
   const [initialized, setIntialized] = useState(false)
-
-  const videoPlayerId = `player-${videoId}`
-  const videoPlayerRef = useRef(<div id={videoPlayerId} className="w-full aspect-video h-full"></div>)
   
+  const youtubeApiContext = useContext(YoutubeApiContext)
+  const videoPlayerId = useMemo(() => `player-${videoId}-${uuid()}`, [videoId])
+
   useEffect(() => {
     if(initialized) {
       console.log('already initialized', videoId)
       return
     }
+    if(!youtubeApiContext.ready){
+      console.log('Youtube Api not ready', videoId)
+      return
+    }
 
     console.log('Init video embed',videoId);
-    // Cargar la API de YouTube
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     setIntialized(true)
 
-    // Crear el reproductor una vez que la API esté lista
-    window.onYouTubeIframeAPIReady = () => {
-      new window.YT.Player(videoPlayerId, {
+    new window.YT.Player(videoPlayerId, {
         videoId, // ID del video de YouTube
         playerVars: {
           autoplay: 0,
@@ -50,11 +48,10 @@ export const EmbedYoutube = ({
           },
         },
       });
-    };
-  }, [videoPlayerId, controls, initialized]);
+  }, [videoPlayerId, controls, initialized, youtubeApiContext]);
 
   return <div className={`${className}`}>
-      {videoPlayerRef.current}
+      <div id={videoPlayerId} className="w-full aspect-video h-full"></div>
     </div>;
 
 }
