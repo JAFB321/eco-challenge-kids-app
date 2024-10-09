@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "spaceAge";
+  src: url("./assets/space-age.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+  
+@font-face {
+  font-family: "star7";
+  src: url("./assets/star7.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "quantum";
+  src: url("./assets/quantum.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "masterpiece";
+  src: url("./assets/masterpiece.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.space-font {
+  font-family: "spaceAge", sans-serif;
+}
+
+.star7-font {
+  font-family: "star7", sans-serif;
+}
+
+.quantum-font {
+  font-family: "quantum", sans-serif;
+}
+
+.masterpiece-font {
+  font-family: "masterpiece", sans-serif;
+}
